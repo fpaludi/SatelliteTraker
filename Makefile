@@ -61,21 +61,16 @@ stop_dev:
 	$(DEV_COMPOSE_CMD) down --remove-orphans
 
 start_project:
-	@printf '${GREEN} Installing, creating and activiting virtualenv... ${NC}\n';
-	@pip3 install virtualenv==20.1.0  > /dev/null;
-	@pip3 install importlib-metadata==1.7.0  > /dev/null;
-	@python3 -m virtualenv .venv --python $(PYTHON_PATH)  > /dev/null;
-	@source .venv/bin/activate
-
-	@printf '${GREEN} Installing and configuring poetry... ${NC}\n';
-	@pip3 install poetry > /dev/null;
-	@poetry config virtualenvs.create true --local;
-	@poetry config virtualenvs.in-project true --local;
-
+	@printf '${GREEN} Installing and creating virtualenv... (python3.9 must be installed) ${NC}\n';
+	@python3.9 -m venv .venv
 	@printf '${GREEN} Installing project dependencies... ${NC}\n';
-	@poetry install -vv;
-	@printf '${GREEN} Configuring pre-commit hooks... ${NC}\n';
-	source .venv/bin/activate && pre-commit install
+	@source .venv/bin/activate && pip3 install --upgrade pip setuptools distlib;
+	@source .venv/bin/activate && pip3 install -r requirements.txt;
+	@source .venv/bin/activate && pip3 install -r requirements_dev.txt;
+
+#@printf '${GREEN} Configuring pre-commit hooks... ${NC}\n';
+#source .avenv/bin/activate && pre-commit install
+#source .avenv/bin/activate && pre-commit install --install-hooks
 
 
 # Git related
