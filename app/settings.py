@@ -12,6 +12,4 @@ class Settings(BaseSettings):
     LOG_FILE = "app.log"
 
 
-
-
 settings = Settings()

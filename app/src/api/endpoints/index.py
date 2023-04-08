@@ -10,6 +10,9 @@ logger = get_logger(__name__)
 
 templates = Jinja2Templates(directory="templates")
 
+
 @router.get("/dashboard/{dashboard_id}", response_class=HTMLResponse)
 def root(request: Request, dashboard_id):
-    return templates.TemplateResponse("home.html", {"request": request, "dashboard_id": dashboard_id})
+    return templates.TemplateResponse(
+        "home.html", {"request": request, "dashboard_id": dashboard_id}
+    )

@@ -10,21 +10,20 @@ jsjson = window.JSON
 cesium = window.Cesium
 
 
-PathPosition = namedtuple('PathPosition',
-                          'at_date latitude longitude altitude cesium_date cesium_position')
+PathPosition = namedtuple(
+    "PathPosition", "at_date latitude longitude altitude cesium_date cesium_position"
+)
 
 
 def init_params_from_jsobj(jsobj, init_fields):
     """
     Try to extract init params from a javascript object, usually the result of a JSON.parse.
     """
-    params = {field: jsobj[field]
-              for field in init_fields
-              if field in jsobj}
+    params = {field: jsobj[field] for field in init_fields if field in jsobj}
 
-    if 'id' in params:
-        params['id_'] = params['id']
-        del params['id']
+    if "id" in params:
+        params["id_"] = params["id"]
+        del params["id"]
 
     return params
 
@@ -33,12 +32,22 @@ class Style:
     """
     Visual style for an object in the Dashboard.
     """
-    def __init__(self, point_size=10, point_color="#FFFF00",
-                 show_path=True, path_width=2, path_color="#00FF00",
-                 path_seconds_ahead=60 * 45, path_seconds_behind=60 * 10,
-                 show_sensor=True, sensor_line_width=1, sensor_color="#00FFFF", sensor_fill=False,
-                 sensor_fill_alpha=0.2,
-                 ):
+
+    def __init__(
+        self,
+        point_size=10,
+        point_color="#FFFF00",
+        show_path=True,
+        path_width=2,
+        path_color="#00FF00",
+        path_seconds_ahead=60 * 45,
+        path_seconds_behind=60 * 10,
+        show_sensor=True,
+        sensor_line_width=1,
+        sensor_color="#00FFFF",
+        sensor_fill=False,
+        sensor_fill_alpha=0.2,
+    ):
         self.point_size = point_size
         self.point_color = point_color
 
@@ -59,8 +68,10 @@ class Style:
         """
         Build a Style extracting data from a parsed api response.
         """
-        fields = ("point_size point_color path_width path_color path_seconds_ahead "
-                  "path_seconds_behind".split())
+        fields = (
+            "point_size point_color path_width path_color path_seconds_ahead "
+            "path_seconds_behind".split()
+        )
         init_params = init_params_from_jsobj(jsobj, fields)
         return cls(**init_params)
 
@@ -69,8 +80,18 @@ class Satellite:
     """
     A satellite that's part of a Dashboard.
     """
-    def __init__(self, id_=None, from_db=False, name="New satellite", description="New satellite",
-                 norad_id=None, tle=None, tle_date=None, style=None):
+
+    def __init__(
+        self,
+        id_=None,
+        from_db=False,
+        name="New satellite",
+        description="New satellite",
+        norad_id=None,
+        tle=None,
+        tle_date=None,
+        style=None,
+    ):
         if from_db:
             assert id is not None
 
@@ -142,7 +163,9 @@ class Satellite:
         current map date, plus X map seconds).
         """
         if not self.tle:
-            print("Can't request path for satellite", self.name, "because it has no TLE")
+            print(
+                "Can't request path for satellite", self.name, "because it has no TLE"
+            )
             return
 
         print("Requesting path for satellite", self.name)
@@ -183,9 +206,11 @@ class Satellite:
                     longitude=position_data.longitude,
                     altitude=position_data.altitude,
                     cesium_date=iso_to_cesium_date(position_data.at_date),
-                    cesium_position=cesium.Cartesian3.fromDegrees(position_data.longitude,
-                                                                  position_data.latitude,
-                                                                  position_data.altitude),
+                    cesium_position=cesium.Cartesian3.fromDegrees(
+                        position_data.longitude,
+                        position_data.latitude,
+                        position_data.altitude,
+                    ),
                 )
                 for position_data in path_data.positions
             ]
@@ -202,8 +227,17 @@ class Location:
     """
     A location that's part of a Dashboard.
     """
-    def __init__(self, id_=None, name="New location", description="New location", latitude=None,
-                 longitude=None, altitude=None, style=None):
+
+    def __init__(
+        self,
+        id_=None,
+        name="New location",
+        description="New location",
+        latitude=None,
+        longitude=None,
+        altitude=None,
+        style=None,
+    ):
         if id_ is None:
             id_ = str(uuid4())
         if style is None:
@@ -248,6 +282,7 @@ class Dashboard:
     """
     A dashboard defining what is currently being presented (satellites, locations, etc).
     """
+
     def __init__(self, id_=None, name="New dashboard", satellites=None, locations=None):
         if id_ is None:
             id_ = str(uuid4())
@@ -267,10 +302,14 @@ class Dashboard:
         """
         data = self.__dict__.copy()
 
-        data["satellites"] = {satellite_id: satellite.to_json()
-                              for satellite_id, satellite in data["satellites"].items()}
-        data["locations"] = {location_id: location.to_json()
-                             for location_id, location in data["locations"].items()}
+        data["satellites"] = {
+            satellite_id: satellite.to_json()
+            for satellite_id, satellite in data["satellites"].items()
+        }
+        data["locations"] = {
+            location_id: location.to_json()
+            for location_id, location in data["locations"].items()
+        }
 
         return data
 
@@ -303,6 +342,7 @@ class Dashboard:
         Load a user dashboard config from the server.
         """
         print("Requesting dashboard", dashboard_id, "...")
+
         def on_dashboard_received(req):
             """
             Before calling the specified callback, parse the response and build a dashboard
@@ -315,8 +355,9 @@ class Dashboard:
             else:
                 print("Error reading the dashboard from the server")
 
-        ajax.get("/api/dashboards/{}/".format(dashboard_id),
-                 oncomplete=on_dashboard_received)
+        ajax.get(
+            "/api/dashboards/{}/".format(dashboard_id), oncomplete=on_dashboard_received
+        )
 
     def save_to_server(self):
         """

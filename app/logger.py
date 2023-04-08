@@ -67,7 +67,7 @@ def configure_logger():
 
 
 def get_logger(name: str) -> logging.Logger:
-    """ Returns a logger object with proper name
+    """Returns a logger object with proper name
 
     Parameters
     ----------

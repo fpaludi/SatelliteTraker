@@ -59,6 +59,8 @@ Other alternative is to run the API with development and testing purposes. In or
 ```bash
 make build_dev
 make run_dev
+docker exec -it docker_api_1 bash
+python3.9 main.py
 ```
 
 The test are run with
