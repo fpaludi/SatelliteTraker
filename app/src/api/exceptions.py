@@ -21,5 +21,6 @@ UserExistsException = HTTPException(
 )
 
 DataNotFoundException = HTTPException(
-    status_code=status.HTTP_404_NOT_FOUND, detail="Data not found",
+    status_code=status.HTTP_404_NOT_FOUND,
+    detail="Data not found",
 )

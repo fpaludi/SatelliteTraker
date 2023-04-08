@@ -6,7 +6,9 @@ from fastapi.staticfiles import StaticFiles
 
 def app_factory():
     configure_logger()
-    app = FastAPI(title="BooksAPI",)
+    app = FastAPI(
+        title="BooksAPI",
+    )
     from src.api.api import api_router
 
     app.include_router(api_router)

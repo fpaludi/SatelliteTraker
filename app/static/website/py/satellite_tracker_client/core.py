@@ -6,6 +6,7 @@ class App:
     The SatelliteTracker client side app itself. It also depends on having a BgWorker instance running as a
     web worker.
     """
+
     def __init__(self):
         """
         Initialize the client side app of SatelliteTracker.
@@ -18,6 +19,7 @@ class App:
         from satellite_tracker_client.map_ui import MapUI
         from satellite_tracker_client.satellites_ui import SatellitesUI
         from satellite_tracker_client.locations_ui import LocationsUI
+
         # from satellite_tracker_client.passes import initialize_passes
         from satellite_tracker_client.dashboards_ui import DashboardsUI
 
@@ -42,9 +44,7 @@ class App:
         print("SatelliteTracker app initialized!")
 
         # set callbacks that glue ui modules between each other
-        self.on_dashboard_changed_callbacks.append(
-            self.map_ui.on_dashboard_changed
-        )
+        self.on_dashboard_changed_callbacks.append(self.map_ui.on_dashboard_changed)
 
     def set_current_dashboard(self, dashboard):
         """

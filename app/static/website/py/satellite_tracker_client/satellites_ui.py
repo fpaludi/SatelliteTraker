@@ -10,6 +10,7 @@ class SatellitesUI:
     """
     All the logic that handles the satellites related part of the UI of SatelliteTracker.
     """
+
     def __init__(self, app):
         self.app = app
 
@@ -26,9 +27,12 @@ class SatellitesUI:
 
         # assign event handlers
         self.satellites_modal.on("show.bs.modal", self.on_satellites_modal_shown)
-        self.existing_satellites_form.on("show.bs.collapse",
-                                         self.on_existing_satellites_form_shown)
-        self.create_satellite_form.on("show.bs.collapse", self.on_create_satellite_form_shown)
+        self.existing_satellites_form.on(
+            "show.bs.collapse", self.on_existing_satellites_form_shown
+        )
+        self.create_satellite_form.on(
+            "show.bs.collapse", self.on_create_satellite_form_shown
+        )
         self.filter_satellites_input.on("keyup", self.on_filter_existing_satellites)
 
     def on_satellites_modal_shown(self, e):
@@ -77,8 +81,10 @@ class SatellitesUI:
                     name += " ({})".format(norad_id)
 
                 # build a new li element and add it to the list
-                element_html = '<li class="list-group-item list-group-item-action">{}</li>'.format(
-                    name,
+                element_html = (
+                    '<li class="list-group-item list-group-item-action">{}</li>'.format(
+                        name,
+                    )
                 )
                 satellite_element = jq(element_html)
                 satellite_element.data("satellite_id", server_satellite.id)

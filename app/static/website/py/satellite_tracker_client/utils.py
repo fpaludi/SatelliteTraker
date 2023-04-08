@@ -57,9 +57,7 @@ def calculate_visible_radius(altitude):
     """
     # angle between a line going from the center of the Earth to the satellite, and another
     # line going from the center of the earth to the horizon line of the satellite
-    visible_angle = math.degrees(
-        math.acos(EARTH_RADIUS / (EARTH_RADIUS + altitude))
-    )
+    visible_angle = math.degrees(math.acos(EARTH_RADIUS / (EARTH_RADIUS + altitude)))
     # distance over the surface of the earth, from the satellite coordinates, to its
     # horizon
     return (visible_angle / 360) * EARTH_CIRCUNFERENCE
