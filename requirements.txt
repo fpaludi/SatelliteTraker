@@ -1,0 +1,9 @@
+fastapi==0.93.0
+uvicorn[standard]==0.20.0
+requests==2.23.0
+dependency-injector==3.27
+python-dotenv==0.14
+aiofiles==0.5.0
+python-multipart==0.0.5
+structlog==21.1.0
+colorama==0.4.4

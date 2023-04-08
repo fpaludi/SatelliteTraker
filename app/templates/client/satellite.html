@@ -1,0 +1,17 @@
+{% raw %}
+<script id="satellite-template" type="x-tmpl-mustache">
+    <div class="row p-3 mb-2 bg-secondary text-white rounded">
+        <div>
+            <button type="button" class="btn btn-secondary btn-sm"><i class="fas fa-satellite"></i> {{name}}</button>
+        </div>
+        <div class="ml-auto mr-2">
+            {{^from_db}}
+                <button type="button" class="btn btn-secondary btn-sm"><i class="fas fa-pencil-alt"></i> Edit</button>
+            {{/from_db}}
+            <button type="button" class="btn btn-secondary btn-sm"><i class="fas fa-circle" style="color:{{point_color}};"></i> Dot style</button>
+            <button type="button" class="btn btn-secondary btn-sm"><i class="fas fa-minus" style="color:{{path_color}};"></i> Line style</button>
+            <button type="button" class="btn btn-secondary btn-sm"><i class="fas fa-times"></i></button>
+        </div>
+    </div>
+</script>
+{% endraw %}
